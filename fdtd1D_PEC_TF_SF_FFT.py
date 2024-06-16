@@ -1,4 +1,5 @@
 #Programa FDTD_1d PEC (fuente suave TF/SF) FFT
+#Programa para calcular la transformada rápida de Fourier 
 import numpy as np
 import math
 import matplotlib.pyplot as plt
@@ -14,10 +15,9 @@ sigma_m_x = 0
 esc = math.sqrt((8.8541878176*10**-12)/(4*math.pi*10**-7))
 c = 299792458
 #Constantes de paso
-PPW = 20 #Habría que probar con 15
-As = 10 * 10**-3 #Probar también con 5mm
-ho = 0.5 #Este valor se ha escrito siguiendo el único criterio de que debía 
-         #ser inferior a 1.0
+PPW = 20 
+As = 10 * 10**-3 
+ho = 0.5 
 At = As*ho/c
 Nk = 81
 lim_step = 300
@@ -55,17 +55,14 @@ for n in range(1,lim_step+1):
     #Fuente dura
     #E_y[16] = gauss
     #Fuente suave
-    #E_y[16] = E_y[16] + D_Ey * gauss #Pendiente revisión de si incluir el coef algebraico
+    #E_y[16] = E_y[16] + D_Ey * gauss 
     #E_y[16] = E_y[16] + gauss
     #Almacenamiento del campo eléctrico en cada posición a lo largo de z
     E_y_rep[n-1,:] = E_y
-
     # Calcula la transformada de Fourier de tus campos en el dominio del tiempo
     E_y_fft = np.fft.fft(E_y)
-
     # Obtén las frecuencias correspondientes
     freq = np.fft.fftfreq(Nk, d=At)
-
     # Gráfica los resultados en el dominio de las frecuencias
     plt.plot(freq, np.abs(E_y_fft),color='black')
     plt.xlabel('Frecuencia [Hz]')
@@ -74,11 +71,9 @@ for n in range(1,lim_step+1):
     # Establecer límites del eje x e y
     plt.xlim(0, 1e10)
     plt.ylim(0, 12)
-    plt.grid(True, which='both', linestyle='--', linewidth=0.5, color='gray')
-    
+    plt.grid(True, which='both', linestyle='--', linewidth=0.5, color='gray')    
     if n == 250:
-        break
-        
+        break        
     #Actualiza y muestra el gráfico en cada iteración
     display(plt.gcf())
     clear_output(wait=True)
