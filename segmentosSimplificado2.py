@@ -4,7 +4,7 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-#INICIALIZACION DE VARIABLES
+#INICIALIZACION DE VARIABLES NO ME GUSTA ESTO
 #Constantes del medio
 N_max = 60 
 Ni = N_max
