@@ -21,20 +21,17 @@ def g(x,y):
 #Puntos de integracion
 x = np.linspace(a,As,100)      
 y = np.linspace(a,As,100)   
-#u = np.linspace(0,As,100)   #desde 0   
-#v = np.linspace(0,As,100)   #desde 0  
   
 #Cuadricula de puntos
 X, Y = np.meshgrid(x,y)  
-#U, V = np.meshgrid(u,v)     #desde 0 
 
-#Evaluar los puntos de las cuadriculas
+#Evaluar los puntos de las cuadrículas
 f_valores = f(X, Y)
-g_valores = g(X, Y)         #desde 0  
+g_valores = g(X, Y)
 
 #Integrales mediante el metodo de simpson
 integral_numerador = simpson(simpson(f_valores,x),y) 
-integral_denominador = simpson(simpson(g_valores,x),y)  #desde 0  
+integral_denominador = simpson(simpson(g_valores,x),y) 
 
 #Calculo de L   
 L = (mu/(2*math.pi))*(integral_numerador/integral_denominador)
