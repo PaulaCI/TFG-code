@@ -6,7 +6,7 @@ from IPython.display import display, clear_output
 import time
 
 #INICIALIZACION DE VARIABLES
-#Constantes del medio (convertir en vectores)
+#Constantes del medio 
 sigma_y = 0             
 epsilon_y = 8.8541878176*10**-12
 mu_x = 4*math.pi*10**-7
@@ -14,10 +14,9 @@ sigma_m_x = 0
 esc = math.sqrt((8.8541878176*10**-12)/(4*math.pi*10**-7))
 c = 299792458
 #Constantes de paso
-PPW = 20 #Habr铆a que probar con 15
-As = 10 * 10**-3 #Probar tambi茅n con 5mm
-ho = 0.5 #Este valor se ha escrito siguiendo el 煤nico criterio de que deb铆a 
-         #ser inferior a 1.0
+PPW = 20 
+As = 10 * 10**-3
+ho = 0.5 
 At = As*ho/c
 Nk = 81
 lim_step = 250
@@ -34,7 +33,7 @@ D_Hx = At/((mu_x + 0.5*sigma_m_x*At)*esc)
 H_x = np.zeros(Nk)
 E_y = np.zeros(Nk)
 
-#Almacena el campo el茅ctrico en cada iteraci贸n
+#Almacena el campo el茅漏ctrico en cada iteraci贸n
 E_y_rep = np.zeros((lim_step, Nk))
 
 #CUERPO PRINCIPAL
@@ -44,40 +43,39 @@ for n in range(1,lim_step+1):
     #Fuente gaussiana
     gauss = math.exp(-(t-to)**2/p**2)
     gauss_t = math.exp(-(t+As/(2*c)+At/2-to)**2/p**2)
-    #Actualizaci贸n del campo H con condiciones de contorno peri贸dicas
+    #Actualizaci脙鲁n del campo H con condiciones de contorno peri脙鲁dicas
     H_x[:Nk-1] = C_Hx * H_x[:Nk-1] - D_Hx * (E_y[:Nk-1] - E_y[1:Nk]) / As
     H_x[15] = H_x[15] - D_Hx * (gauss) / As
     H_x[Nk-1] = C_Hx * H_x[Nk-1] - D_Hx * (E_y[Nk-1] - E_y[0]) / As
-    #Actualizaci贸n del campo E con condiciones de contorno peri贸dicas
+    #Actualizaci脙鲁n del campo E con condiciones de contorno peri脙鲁dicas
     E_y[1:Nk] = C_Ey * E_y[1:Nk] + D_Ey * (H_x[1:Nk] - H_x[0:Nk-1]) / As  
     E_y[0] = C_Ey * E_y[0] + D_Ey * (H_x[0] - H_x[Nk-1]) / As 
     E_y[16] = E_y[16] + D_Ey * gauss_t / As
     #Fuente dura
     #E_y[16] = gauss
     #Fuente suave
-    #E_y[16] = E_y[16] + D_Ey * gauss #Pendiente revisi贸n de si incluir el coef algebraico
+    #E_y[16] = E_y[16] + D_Ey * gauss 
     #E_y[16] = E_y[16] + gauss    
     #Almacenamiento del campo el茅ctrico en cada posici贸n a lo largo de z
     E_y_rep[n-1,:] = E_y
 
     if n % 2 == 0:
-        # Gr醘ico del campo el閏trico en cada iteraci髇
+        # Gr谩fico del campo el茅ctrico en cada iteraci贸n
         plt.plot(range(Nk), E_y, color = 'black')
-        # Establecer l韒ites del eje x e y
+        # Establecer l铆mites del eje x e y
         plt.xlim(0, 80)
         plt.ylim(-1.4, 1.4)
-        plt.xlabel('Posici髇 en el eje z', fontsize=16)
-        plt.ylabel('Campo El閏trico [C]', fontsize=16)
+        plt.xlabel('Posici贸n en el eje z', fontsize=16)
+        plt.ylabel('Campo El茅ctrico [C]', fontsize=16)
         plt.title(f'Tiempo: {n}')
         plt.grid(True, which='both', linestyle='--', linewidth=0.5, color='gray')
         plt.show()
         time.sleep(0.005)  # Pausa entre iteraci贸n    
-        # Actualiza y muestra el gr谩fico en cada iteraci贸n
+        # Actualiza y muestra el gr脙隆fico en cada iteraci贸n
         display(plt.gcf())
         if n == 184:
             break
         clear_output(wait=True)
-
 
 #Fin de la figura
 plt.show()
