@@ -1,4 +1,4 @@
-#Programa FDTD_2d condiciones de contorno periódicas, sin for, todos los puntos
+#Programa FDTD_2d condiciones de contorno periódicas, sin for
 import numpy as np
 import math
 import matplotlib.pyplot as plt
@@ -6,7 +6,7 @@ from IPython.display import display, clear_output
 import time
 
 #INICIALIZACION DE VARIABLES
-#Constantes del medio (convertir en vectores)
+#Constantes del medio 
 sigma_z = 0             
 epsilon_z = 8.8541878176*10**-12
 mu_x = 4*math.pi*10**-7
@@ -16,10 +16,9 @@ sigma_m_y = 0
 esc = math.sqrt((8.8541878176*10**-12)/(4*math.pi*10**-7))
 c = 299792458
 #Constantes de paso
-PPW = 20 #Habría que probar con 15
-As = 10 * 10**-3 #Probar también con 5mm
-ho = 0.5 #Este valor se ha escrito siguiendo el único criterio de que debía 
-         #ser inferior a 1.0
+PPW = 20 
+As = 10 * 10**-3
+ho = 0.5 
 At = As*ho/(c*math.sqrt(2))
 N_max = 61
 Ni = N_max
