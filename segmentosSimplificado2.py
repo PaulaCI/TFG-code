@@ -4,9 +4,6 @@
 import numpy as np
 import math
 import matplotlib.pyplot as plt
-#directorio = r'C:\Users\anjer\OneDrive\Documentos\Universidad de Granada\Año 7\Cuatrimestre 2\Python\Datos'
-#nombre_archivo = 'sto_g_10.txt'
-#archivo = open(nombre_archivo, 'w')
 #INICIALIZACION DE VARIABLES
 #Constantes del medio
 N_max = 60 
@@ -33,8 +30,8 @@ sigma_m_y = np.zeros((Ni,Nj,Nk))
 sigma_m_z = np.zeros((Ni,Nj,Nk))
 c = 299792458
 #Constantes de paso
-PPW = 20 #HabrÃ­a que probar con 15
-As = 10**-3 #1 metro
+PPW = 20
+As = 10**-3 
 At = As*0.9/(c*math.sqrt(3))
 lim_step = 200
 #lim_step = 82
@@ -235,8 +232,6 @@ def update_Ez_thin_wire(A1,A2,A3,B1,B2,B3,E_z,H_x,H_y,H_z,C_Ez,D_Ez,As,At,c,Ni,N
     m[1:Ni,1:Nj,0:Nk] = H_y[1:Ni,1:Nj,0:Nk] - H_y[0:Ni-1,1:Nj,0:Nk] + H_x[1:Ni,0:Nj-1,0:Nk] - H_x[1:Ni,1:Nj,0:Nk]
     E_z[1:Ni,1:Nj,0:Nk] = C_Ez_tw[1:Ni,1:Nj,0:Nk] * E_z[1:Ni,1:Nj,0:Nk] + D_Ez_tw[1:Ni,1:Nj,0:Nk] * m[1:Ni,1:Nj,0:Nk] / As - D_Ez_tw[1:Ni,1:Nj,0:Nk] * I[1:Ni,1:Nj,0:Nk]/(As**2)  
     sto_Ez[1:Ni,1:Nj,0:Nk] = C_Ez_tw[1:Ni,1:Nj,0:Nk] * sto_Ez[1:Ni,1:Nj,0:Nk] + D_Ez_tw[1:Ni,1:Nj,0:Nk] * (-sto_I[1:Ni,1:Nj,0:Nk]/As + sto_Hy[1:Ni,1:Nj,0:Nk] - sto_Hy[0:Ni-1,1:Nj,0:Nk] + sto_Hx[1:Ni,0:Nj-1,0:Nk] - sto_Hx[1:Ni,1:Nj,0:Nk])/As
-
-   
     
 #CALCULOS
 times=[]
