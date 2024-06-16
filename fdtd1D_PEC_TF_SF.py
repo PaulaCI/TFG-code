@@ -14,10 +14,9 @@ sigma_m_x = 0
 esc = math.sqrt((8.8541878176*10**-12)/(4*math.pi*10**-7))
 c = 299792458
 #Constantes de paso
-PPW = 20 #Habría que probar con 15
-As = 10 * 10**-3 #Probar también con 5mm
-ho = 0.5 #Este valor se ha escrito siguiendo el único criterio de que debía 
-         #ser inferior a 1.0
+PPW = 20 
+As = 10 * 10**-3 
+ho = 0.5 
 At = As*ho/c
 Nk = 81
 lim_step = 300
@@ -55,11 +54,10 @@ for n in range(1,lim_step+1):
     #Fuente dura
     #E_y[16] = gauss
     #Fuente suave
-    #E_y[16] = E_y[16] + D_Ey * gauss #Pendiente revisión de si incluir el coef algebraico
+    #E_y[16] = E_y[16] + D_Ey * gauss 
     #E_y[16] = E_y[16] + gauss
     #Almacenamiento del campo eléctrico en cada posición a lo largo de z
-    E_y_rep[n-1,:] = E_y
-    
+    E_y_rep[n-1,:] = E_y    
     if n % 2 == 0:
         # Gráfico del campo eléctrico en cada iteración
         plt.plot(range(Nk), E_y, color = 'black')
@@ -71,13 +69,12 @@ for n in range(1,lim_step+1):
         plt.title(f'Tiempo: {n}')
         plt.grid(True, which='both', linestyle='--', linewidth=0.5, color='gray')
         plt.show()
-        time.sleep(0.005)  # Pausa entre iteraciÃ³n    
-    # Actualiza y muestra el grÃ¡fico en cada iteraciÃ³n
+        time.sleep(0.005)  # Pausa entre iteración    
+    # Actualiza y muestra el gráfico en cada iteración
         display(plt.gcf())
         if n == 184:
             break
         clear_output(wait=True)
-
 
 #Fin de la figura
 plt.show()
