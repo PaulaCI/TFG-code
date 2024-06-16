@@ -6,9 +6,6 @@ import math
 import matplotlib.pyplot as plt
 from IPython.display import display, clear_output
 import time
-#directorio = r'C:\Users\anjer\OneDrive\Documentos\Universidad de Granada\Año 7\Cuatrimestre 2\Python\Datos'
-#nombre_archivo = 'sto_g_10.txt'
-#archivo = open(nombre_archivo, 'w')
 #INICIALIZACION DE VARIABLES
 #Constantes del medio
 N_max = 60 
@@ -35,11 +32,8 @@ sigma_m_y = np.zeros((Ni,Nj,Nk))
 sigma_m_z = np.zeros((Ni,Nj,Nk))
 c = 299792458
 #Constantes de paso
-PPW = 20 #HabrÃ­a que probar con 15
-As = 10**-3 #1 metro
-#As = 1
-ho = 0.5 #Este valor se ha escrito siguiendo el Ãºnico criterio de que debÃ­a 
-         #ser inferior a 1.0
+PPW = 20 
+As = 10**-3 
 At = As*0.9/(c*math.sqrt(3))
 lim_step = 2500
 #lim_step = 82
@@ -60,7 +54,7 @@ C_Hy = (mu_y - 0.5*sigma_m_y*At)/(mu_y + 0.5*sigma_m_y*At)
 D_Hy = At/(mu_y + 0.5*sigma_m_y*At)
 C_Hz = (mu_z - 0.5*sigma_m_z*At)/(mu_z + 0.5*sigma_m_z*At)
 D_Hz = At/(mu_z + 0.5*sigma_m_z*At)
-#InicializaciÃ³n a 0 de los campos
+#Inicialización a 0 de los campos
 H_x = np.zeros((Ni,Nj,Nk))          
 H_y = np.zeros((Ni,Nj,Nk))
 H_z = np.zeros((Ni,Nj,Nk))
@@ -107,10 +101,7 @@ Rvar = np.array([1.0480821440721129,0.9247264298969866,1.0283193018954377,0.9535
 desvia = np.array([0.10480821440721129,0.09247264298969866,0.10283193018954379,0.09535092783930181,0.09577257685371066,0.08946043410020965,0.09735852636761193])
 for k in range(0,7):
     R[30,27+k,30] = Rvar[k]/As
-#    L[30,27+k,30] = (7.462*10**-7)
     L[30,27+k,30] = (7.462*10**-7)
-#    L[30,27+k,30] = 10**-5
-#    L[30,27+k,30] = 5.448068673016988*10**-7
     sto_R[30,27+k,30] = desvia[k]/As
 
 #Funciones
@@ -267,7 +258,7 @@ def update_Ez_thin_wire(E_z,H_x,H_y,H_z,C_Ez,D_Ez,As,At,c,Ni,Nj,Nk,sto_Ez,sto_Hx
     B2[30,27+k,30] = sto_L[30,27+k,30]*c**2*At*As*(1/2*At*R[30,27+k,30])/(As*(L[30,27+k,30]+1/2*At*R[30,27+k,30]))**2 - sto_R[30,27+k,30]*1/2*As*At**2*c**2*L[30,27+k,30]/(As*(L[30,27+k,30]+1/2*At*R[30,27+k,30]))**2
     B3[30,27+k,30] = -sto_L[30,27+k,30]*At/(L[30,27+k,30]+1/2*At*R[30,27+k,30])**2 - 1/2*sto_R[30,27+k,30]*At**2/(L[30,27+k,30]+1/2*At*R[30,27+k,30])**2
     #Calculo campo eléctrico Ez, la thin wire y sus varianzas
-    #Q,I #*******
+    #Q,I 
     Q[30,27+k,30] = Q[30,27+k,30] - (At/As) * (I[30,28+k,30] - I[30,27+k,30])
     I[30,27+k,30] = A1[30,27+k,30]*I[30,27+k,30] - A2[30,27+k,30]*(Q[30,27+k,30] - Q[30,26+k,30]) + A3[30,27+k,30]*E_z[30,27+k,30]
     #Varianza de Q,I
@@ -287,7 +278,6 @@ def update_Ez_thin_wire(E_z,H_x,H_y,H_z,C_Ez,D_Ez,As,At,c,Ni,Nj,Nk,sto_Ez,sto_Hx
     E_z[1:Ni,1:Nj,0:Nk] = C_Ez_tw[1:Ni,1:Nj,0:Nk] * E_z[1:Ni,1:Nj,0:Nk] + D_Ez_tw[1:Ni,1:Nj,0:Nk] * m[1:Ni,1:Nj,0:Nk] / As + D_Ez_tw[1:Ni,1:Nj,0:Nk] * I[1:Ni,1:Nj,0:Nk]/(As**2) 
     sto_Ez[1:Ni,1:Nj,0:Nk] = C_Ez_tw[1:Ni,1:Nj,0:Nk] * sto_Ez[1:Ni,1:Nj,0:Nk] + A[1:Ni,1:Nj,0:Nk] * (sigma_z[1:Ni,1:Nj,0:Nk]*sto_epsilon_z[1:Ni,1:Nj,0:Nk]-epsilon_z[1:Ni,1:Nj,0:Nk]*sto_sigma_z[1:Ni,1:Nj,0:Nk]) * E_z[1:Ni,1:Nj,0:Nk] + D_Ez_tw[1:Ni,1:Nj,0:Nk] * (sto_I[0,0,0:Nk]/As + sto_Hy[1:Ni,1:Nj,0:Nk] - sto_Hy[0:Ni-1,1:Nj,0:Nk] + sto_Hx[1:Ni,0:Nj-1,0:Nk] - sto_Hx[1:Ni,1:Nj,0:Nk] - B[1:Ni,1:Nj,0:Nk] * (sto_epsilon_z[1:Ni,1:Nj,0:Nk]+1/2*At*sto_sigma_z[1:Ni,1:Nj,0:Nk]) * m[1:Ni,1:Nj,0:Nk])/As
 
-    
 #CALCULOS
 times=[]
 probe1=[]
@@ -298,28 +288,25 @@ for n in range(1,lim_step+1):
 #    if t < 50*As/c:
     gauss = math.exp(-(t-to)**2/p**2)
 #    gauss = math.sqrt(2*math.exp(1))*(t-to)*math.exp(-(t-to)**2/p**2)/p
-        #Actualización campo magnético H con condiciones (PEC) y su varianza
+    #Actualización campo magnético H con condiciones (PEC) y su varianza
     update_Hx(H_x,E_x,E_y,E_z,C_Hx,D_Hx,As,At,Ni,Nj,Nk,sto_Hx,sto_Ex,sto_Ey,sto_Ez,sto_sigma_m_x,sto_mu_x,sigma_m_x,mu_x)
     update_Hy(H_y,E_x,E_y,E_z,C_Hy,D_Hy,As,At,Ni,Nj,Nk,sto_Hy,sto_Ex,sto_Ey,sto_Ez,sto_sigma_m_y,sto_mu_y,sigma_m_y,mu_y)
     update_Hz(H_z,E_x,E_y,E_z,C_Hz,D_Hz,As,At,Ni,Nj,Nk,sto_Hz,sto_Ex,sto_Ey,sto_Ez,sto_sigma_m_z,sto_mu_z,sigma_m_z,mu_z)
-        #Actualización campo eléctrico E con condiciones (PEC) y su varianza
+    #Actualización campo eléctrico E con condiciones (PEC) y su varianza
     update_Ex(E_x,H_x,H_y,H_z,C_Ex,D_Ex,As,At,Ni,Nj,Nk,sto_Ex,sto_Hx,sto_Hy,sto_Hz,sto_sigma_x,sto_epsilon_x,sigma_x,epsilon_x)
     update_Ey(E_y,H_x,H_y,H_z,C_Ey,D_Ey,As,At,Ni,Nj,Nk,sto_Ey,sto_Hx,sto_Hy,sto_Hz,sto_sigma_y,sto_epsilon_y,sigma_y,epsilon_y)
     update_Ez_thin_wire(E_z,H_x,H_y,H_z,C_Ez,D_Ez,As,At,c,Ni,Nj,Nk,sto_Ez,sto_Hx,sto_Hy,sto_Hz,sto_sigma_z,sto_epsilon_z,sigma_z,epsilon_z,I,Q,R,L,sto_Q,sto_I,sto_R,sto_L,l,r)
-        #Pulso gaussiano
+    #Pulso gaussiano
     E_z[30,30,20] = E_z[30,30,20] + D_Ez[30,30,20] * gauss          
     times.append(t)
-#       archivo.write(f"{n} {t} {I[30,30,30]} {sto_I[30,30,30]}\n")
     probe1.append(I[30,30,30])
     probe2.append(abs(sto_I[30,30,30]))
-
     print(n,t,E_z[15,15,15],H_x[15,15,15])
-
+         
 #plt.plot(times, probe1, 'x--', label= 'Media perfil gaussiano FDTD 1%', color = 'green', markersize=3)
 #plt.plot(times, probe1, label= 'Media perfil gaussiano FDTD 10%', color = 'green')
 plt.plot(times, probe2, label='Desviación estándar S-FDTD 10%', color = 'blue')
 #plt.plot(times, probe2, 's--', label='Desviación estándar perfil gaussiano S-FDTD 1%', color = 'red', markersize=3)
-
 
 plt.xlabel('Tiempo [s]')
 plt.ylabel('Intensidad [A]')
@@ -328,6 +315,5 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-#archivo.close()
 
 print('FIN')
