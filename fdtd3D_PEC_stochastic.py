@@ -32,10 +32,9 @@ sigma_m_z = np.zeros((Ni,Nj,Nk))
 esc = math.sqrt((8.8541878176*10**-12)/(4*math.pi*10**-7))
 c = 299792458
 #Constantes de paso
-PPW = 20 #HabrÃ­a que probar con 15
-As = 10 * 10**-3 #Probar tambiÃ©n con 5mm
-ho = 0.5 #Este valor se ha escrito siguiendo el Ãºnico criterio de que debÃ­a 
-         #ser inferior a 1.0
+PPW = 20 
+As = 10 * 10**-3 
+ho = 0.5 
 At = As*0.99/(c*math.sqrt(3))
 lim_step = 1000
 fmax = c/(PPW*As)
