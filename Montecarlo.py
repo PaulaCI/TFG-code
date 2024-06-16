@@ -1,6 +1,6 @@
 #Programa FDTD_3D fuente suave, sin ciclo for, PEC, Monte-Carlo
 #7 segmentos de cable
-#gaussiana
+#Fuente de perfil gaussiano
 import numpy as np
 import math
 import matplotlib.pyplot as plt
@@ -62,8 +62,7 @@ d = 2 * 2*10**-5
 l = As
 r = d/2
 for k in range(0,7):
-#    L[30,27+k,30] = 7.462*10**-7
-    L[30,27+k,30] = (7.462*10**-7)/As
+    L[30,27+k,30] = (7.462*10**-7)
 
 #Funciones
 def update_Hx(H_x,E_x,E_y,E_z,C_Hx,D_Hx,As,At,Ni,Nj,Nk):
@@ -193,7 +192,6 @@ for o in range(1,101):
         x[k] = Rvar[k]-3*desvia[k]+o*6*desvia[k]/100
     for k in range(0,7):
         R[30,27+k,30] =(Rvar[k]/As)*math.exp(-((x[k]-Rvar[k])**2)/(2*desvia[k]**2))
-#        R[30,27+k,30] =(Rvar[k]/As)*(1/(math.sqrt(2*math.pi)*desvia[k]))*math.exp(-((x[k]-Rvar[k])**2)/(2*desvia[k]**2))
     t = 0
     #Ciclo principal FDTD
     for n in range(1,lim_step+1):
